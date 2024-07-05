@@ -34,7 +34,7 @@ print("")
 logging.info('感谢使用TextRecogn项目，github地址https://github.com/fslongjin/TextRecogn')
 logging.info('本日志仅保存在本地用于诊断脚本问题，不上传至服务器，请放心使用')
 
-URL = "http://localhost:8000/ai_check"
+URL = "http://aigc.mcylyr.cn:20000/ai_check"
 output_dir = "./output"
 
 def select_file():

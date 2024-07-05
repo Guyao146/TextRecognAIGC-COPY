@@ -7,6 +7,12 @@ import tkinter as tk
 from tkinter import filedialog
 import ctypes
 
+input_dir = "./input"
+output_dir = "./output"
+
+os.makedirs(input_dir, exist_ok=True)
+os.makedirs(output_dir, exist_ok=True)
+
 # 生成带有时间戳的日志文件名
 log_filename = f'./logs/AIGCall-{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log'
 
@@ -28,7 +34,7 @@ print("")
 logging.info('感谢使用TextRecogn项目，github地址https://github.com/fslongjin/TextRecogn')
 logging.info('本日志仅保存在本地用于诊断脚本问题，不上传至服务器，请放心使用')
 
-URL = "http://localhost:8000/ai_check"
+URL = "http://aigc.mcylyr.cn:20000/ai_check"
 input_dir = "./input"
 output_dir = "./output"
 
