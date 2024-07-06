@@ -5,7 +5,7 @@ import logging
 from datetime import datetime
 import tkinter as tk
 from tkinter import filedialog
-import ctypes
+import subprocess  # 导入 subprocess 模块
 
 input_dir = "./input"
 output_dir = "./output"
@@ -26,7 +26,7 @@ logging.basicConfig(
 Custom_titles = 'TextRecogn-AIGC单文件检测'
 
 print("")
-print("感谢使用TextRecogn项目，github地址https://github.com/fslongjin/TextRecogn.")
+print("感谢使用TextRecogn项目，github地址https://github.com/fslongjin/TextRecogn")
 print("")
 print("日志仅保存在本地用于诊断脚本问题，不上传至服务器，请放心使用")
 print("")
@@ -44,6 +44,14 @@ def select_file():
     return file_path
 
 file_path = select_file()
+
+if not file_path:
+    print("未选择文件，返回主菜单")
+    logging.info("未选择文件，返回主菜单")
+    subprocess.run(["python", "check.py"])  # 运行主菜单脚本
+    exit()  # 退出当前脚本
+
+logging.info(f"选择的文件是：{file_path}")
 print(f"你选择的文件是：{file_path}")
 
 with open(file_path, "rb") as f:
@@ -62,4 +70,7 @@ with open(file_path, "rb") as f:
 
         logging.info(f"处理结束，结果已保存到 {output_file}")
         print(f"处理结束，结果已保存到 {output_file}")
-        print("")
+
+        if os.path.exists(output_file):
+            print(f"正在打开文件：{output_file}")
+            os.startfile(output_file)

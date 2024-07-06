@@ -53,7 +53,8 @@ for root, dirs, files in os.walk(input_dir):
                 print(f"文件 {file} 已处理过，跳过此文件")
                 logging.info(f"文件 {file} 已处理过，跳过此文件")
                 continue
-
+            
+                messagebox.showinfo("提示", "已检测到文件，开始处理文件，请稍等")
             logging.info(f"开始处理文件 {file}")
 
             with open(input_file, "rb") as f:
