@@ -97,7 +97,7 @@ class CommandLineApp:
         messagebox.showinfo("提示", "检测需要时间，若30s后仍然未自动打开请重新尝试，若多次尝试均未成功，请在上一页面中找到本项目介绍页联系顾瑶")
         # 跳转到check_all.py
         subprocess.run(["python", "./check_all.py"])
-        sysexit()
+        sys.exit()
 
     def goto_originauth_github(self):
         # 跳转至原作者项目Github

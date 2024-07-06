@@ -5,7 +5,8 @@ import logging
 from datetime import datetime
 import tkinter as tk
 from tkinter import filedialog
-import ctypes
+import time  # 导入 time 模块
+import shutil
 
 input_dir = "./input"
 output_dir = "./output"
@@ -15,6 +16,9 @@ os.makedirs(output_dir, exist_ok=True)
 
 # 生成带有时间戳的日志文件名
 log_filename = f'./logs/AIGCall-{datetime.now().strftime("%Y-%m-%d_%H-%M-%S")}.log'
+
+# 获取用户桌面路径
+desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
 
 # 设置日志级别
 logging.basicConfig(
@@ -35,11 +39,6 @@ logging.info('感谢使用TextRecogn项目，github地址https://github.com/fslo
 logging.info('本日志仅保存在本地用于诊断脚本问题，不上传至服务器，请放心使用')
 
 URL = "http://aigc.mcylyr.cn:20000/ai_check"
-input_dir = "./input"
-output_dir = "./output"
-
-os.makedirs(input_dir, exist_ok=True)
-os.makedirs(output_dir, exist_ok=True)
 
 # 使用os模块遍历目录
 for root, dirs, files in os.walk(input_dir):
@@ -53,9 +52,9 @@ for root, dirs, files in os.walk(input_dir):
                 print(f"文件 {file} 已处理过，跳过此文件")
                 logging.info(f"文件 {file} 已处理过，跳过此文件")
                 continue
-            
-                messagebox.showinfo("提示", "已检测到文件，开始处理文件，请稍等")
+
             logging.info(f"开始处理文件 {file}")
+            print(f"开始处理文件 {file}")
 
             with open(input_file, "rb") as f:
                 response = requests.post(URL, files={"file": ("a.docx", f, "application/octet-stream")})
@@ -64,7 +63,6 @@ for root, dirs, files in os.walk(input_dir):
                 if response.status_code != 200:
                     logging.error(f"网络请求失败，状态码{response.status_code} 返回信息{response.text}")
                     print(f"网络请求失败，状态码{response.status_code} 返回信息{response.text}")
-                    print("")
                 else:
                     # 将结果保存到 output_dir
                     with open(output_file, "wb") as f:
@@ -72,4 +70,17 @@ for root, dirs, files in os.walk(input_dir):
 
                     logging.info(f"处理结束，结果已保存到 {output_file}")
                     print(f"处理结束，结果已保存到 {output_file}")
-                    print("")
+
+# 将 output 文件夹的内容复制到桌面上
+for item in os.listdir(output_dir):
+    s = os.path.join(output_dir, item)
+    d = os.path.join(desktop, item)
+    if os.path.isdir(s):
+        shutil.copytree(s, d)
+    else:
+        shutil.copy2(s, d)
+
+# 增加延时，确保文件操作完成
+time.sleep(1)
+
+print("所有文件已复制到桌面")
