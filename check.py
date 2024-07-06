@@ -32,7 +32,7 @@ logging.basicConfig(
 class CommandLineApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("TextRecogn-AIGC文字检测顾瑶分支")
+        self.root.title("TextRecogn-AIGC文字检测顾瑶分支 v1.2.b")
         self.root.iconbitmap('logo.ico')
 
          # 创建文本框来模拟命令行界面
