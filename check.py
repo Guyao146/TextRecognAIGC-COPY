@@ -12,9 +12,21 @@ import subprocess
 
 os.system("del /q logs")
 
+logs_dir = "./logs"
 input_dir = "./input"
 output_dir = "./output"
 
+def base_path(path):
+    if getattr(sys, 'frozen', None):
+        basedir = sys._MEIPASS
+    else:
+        basedir = os.path.dirname(__file__)
+    return os.path.join(basedir, path)
+
+tmd = base_path('')
+os.chdir(tmd) 
+
+os.makedirs(logs_dir, exist_ok=True)
 os.makedirs(input_dir, exist_ok=True)
 os.makedirs(output_dir, exist_ok=True)
 
@@ -32,8 +44,7 @@ logging.basicConfig(
 class CommandLineApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("TextRecogn-AIGC文字检测顾瑶分支 v1.2.b")
-        self.root.iconbitmap('logo.ico')
+        self.root.title("TextRecogn-AIGC文字检测顾瑶分支 v1.5.b")
 
          # 创建文本框来模拟命令行界面
         self.text = tk.Text(root, wrap=tk.WORD, bg='black', fg='yellow', insertbackground='white', font=("微软雅黑", 20))
@@ -41,6 +52,7 @@ class CommandLineApp:
         
         # 在文本框中插入一些行
         self.text.insert(tk.END, " 欢迎使用TextRecogn-AIGC文字检测顾瑶分支\n")
+        os.system("cd")
         self.text.insert(tk.END, "\n")
         self.text.insert(tk.END, " 请单击您要使用的服务\n")
         self.text.insert(tk.END, " 1. 单文件检测\n")
@@ -76,16 +88,16 @@ class CommandLineApp:
         messagebox.showinfo("提示", "你选择了单文件检测，正跳转至单文件检测模块，请在接下来的窗口中选择要检测的文件")
         messagebox.showinfo("提示", "检测需要时间，若30s后仍然未自动打开请重新尝试，若多次尝试均未成功，请在上一页面中找到本项目介绍页联系顾瑶")
         # 跳转到check_onlyone.py
-        subprocess.run(["python", "check_onlyone.py"])
-        exit()
+        subprocess.run(["python", "./check_onlyone.py"])
+        sys.exit()
 
     def multi_file_selection(self):
         # 多文件选择逻辑
         messagebox.showinfo("提示", "你选择了多文件检测，正跳转至多文件检测模块，请在output文件夹中放入要检测的文件")
         messagebox.showinfo("提示", "检测需要时间，若30s后仍然未自动打开请重新尝试，若多次尝试均未成功，请在上一页面中找到本项目介绍页联系顾瑶")
         # 跳转到check_all.py
-        subprocess.run(["python", "check_all.py"])
-        exit()
+        subprocess.run(["python", "./check_all.py"])
+        sysexit()
 
     def goto_originauth_github(self):
         # 跳转至原作者项目Github
