@@ -2,6 +2,7 @@ import os
 import requests
 import base64
 import logging
+import sys
 from datetime import datetime
 import tkinter as tk
 from tkinter import filedialog
